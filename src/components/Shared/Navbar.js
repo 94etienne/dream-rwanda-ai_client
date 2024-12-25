@@ -1,5 +1,14 @@
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Box, Button, IconButton, Menu, MenuItem, Drawer } from '@mui/material';
+import React from 'react';
+import {
+  AppBar,
+  Toolbar,
+  Typography,
+  Box,
+  Button,
+  IconButton,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
@@ -18,17 +27,31 @@ const Navbar = ({ modules, anchorEl, setAnchorEl, toggleDrawer, handleOpenLogin,
         <Typography variant="h6" sx={{ flexGrow: 1 }}>
           Dream Rwanda AI
         </Typography>
-        <Box sx={{ display: { xs: 'none', sm: 'block' } }}>
-          <Button color="inherit" endIcon={<ExpandMoreIcon />} onClick={handleModulesClick}>
+
+        {/* Modules Dropdown */}
+        <Box sx={{ display: { xs: 'none', sm: 'block' }, marginRight: 2 }}>
+          <Button
+            color="inherit"
+            endIcon={<ExpandMoreIcon />}
+            onClick={handleModulesClick}
+          >
             Modules
           </Button>
-          <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleModulesClose}>
+          <Menu
+            anchorEl={anchorEl}
+            open={Boolean(anchorEl)}
+            onClose={handleModulesClose}
+          >
             {modules.map((module, index) => (
               <MenuItem key={index} onClick={handleModulesClose}>
                 {module.title}
               </MenuItem>
             ))}
           </Menu>
+        </Box>
+
+        {/* Login and Register Buttons */}
+        <Box sx={{ display: { xs: 'none', sm: 'flex' }, gap: 1 }}>
           <Button color="inherit" onClick={handleOpenLogin}>
             Login
           </Button>
@@ -36,7 +59,13 @@ const Navbar = ({ modules, anchorEl, setAnchorEl, toggleDrawer, handleOpenLogin,
             Register
           </Button>
         </Box>
-        <IconButton color="inherit" sx={{ display: { xs: 'block', sm: 'none' } }} onClick={() => toggleDrawer(true)}>
+
+        {/* Drawer for Small Devices */}
+        <IconButton
+          color="inherit"
+          sx={{ display: { xs: 'flex', sm: 'none' } }}
+          onClick={() => toggleDrawer(true)}
+        >
           <MenuIcon />
         </IconButton>
       </Toolbar>

@@ -1,20 +1,40 @@
 import React, { useState } from 'react';
-import { Container, Grid, Card, CardContent, Typography, CardActions, Button, Drawer, Box, List, ListItem, ListItemText, Dialog, DialogActions, DialogContent, DialogTitle, TextField } from '@mui/material';
+import {
+  Container,
+  Grid,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
+  Button,
+  Drawer,
+  Box,
+  List,
+  ListItem,
+  ListItemText,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+  Menu,
+  MenuItem,
+} from '@mui/material';
 import Navbar from './Shared/Navbar';
 import Footer from './Shared/Footer';
 
 const modules = [
-  { title: 'Machine Learning', description: 'Explore the amazing world of Machine Learning and its applications in real-world scenarios, from predictive analytics to self-driving cars.', cost: 50000 },
-  { title: 'Computer Vision', description: 'Discover how machines interpret and understand the visual world, and delve into techniques like object detection, image classification, and more.', cost: 45000 },
-  { title: 'Deep Learning', description: 'Dive into the fascinating field of Deep Learning, where neural networks power advancements in AI, including language processing and computer vision.', cost: 60000 },
-  { title: 'Software Development', description: 'Learn the art of building robust and scalable software solutions, mastering programming languages, frameworks, and design principles.', cost: 40000 },
+  { title: 'Machine Learning', description: 'Explore Machine Learning...', cost: 50000 },
+  { title: 'Computer Vision', description: 'Discover how machines interpret...', cost: 45000 },
+  { title: 'Deep Learning', description: 'Dive into Deep Learning...', cost: 60000 },
+  { title: 'Software Development', description: 'Learn software development...', cost: 40000 },
 ];
 
 const HomePage = () => {
   const [openLogin, setOpenLogin] = useState(false);
   const [openRegister, setOpenRegister] = useState(false);
   const [expandedCard, setExpandedCard] = useState(null);
-  const [anchorEl, setAnchorEl] = useState(null); // For dropdown menu
+  const [anchorEl, setAnchorEl] = useState(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   const handleOpenLogin = () => setOpenLogin(true);
@@ -22,10 +42,11 @@ const HomePage = () => {
 
   const handleOpenRegister = () => setOpenRegister(true);
   const handleCloseRegister = () => setOpenRegister(false);
-  
-  const toggleDrawer = (open) => {
-    setDrawerOpen(open);
-  };
+
+  const handleModulesClick = (event) => setAnchorEl(event.currentTarget);
+  const handleModulesClose = () => setAnchorEl(null);
+
+  const toggleDrawer = (open) => setDrawerOpen(open);
 
   const toggleReadMore = (index) => {
     setExpandedCard(expandedCard === index ? null : index);
@@ -38,17 +59,36 @@ const HomePage = () => {
         modules={modules}
         anchorEl={anchorEl}
         setAnchorEl={setAnchorEl}
-        toggleDrawer={toggleDrawer} // Pass toggleDrawer to Navbar
+        toggleDrawer={toggleDrawer}
         handleOpenLogin={handleOpenLogin}
         handleOpenRegister={handleOpenRegister}
       />
-      
+
       {/* Drawer */}
       <Drawer anchor="right" open={drawerOpen} onClose={() => toggleDrawer(false)}>
         <Box sx={{ width: 250 }}>
           <List>
-            <ListItem button>
-              <ListItemText primary="Modules" />
+            <ListItem>
+              <Button
+                color="inherit"
+                endIcon={<Menu />}
+                onClick={handleModulesClick}
+                fullWidth
+              >
+                Modules
+              </Button>
+              <Menu
+                anchorEl={anchorEl}
+                open={Boolean(anchorEl)}
+                onClose={handleModulesClose}
+                sx={{ mt: 2 }}
+              >
+                {modules.map((module, index) => (
+                  <MenuItem key={index} onClick={handleModulesClose}>
+                    {module.title}
+                  </MenuItem>
+                ))}
+              </Menu>
             </ListItem>
             <ListItem button onClick={handleOpenLogin}>
               <ListItemText primary="Login" />
